@@ -25,7 +25,7 @@
 
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
-    SSCustomAlter *_alter = [[SSCustomAlter alloc] initWithTitle:@"提示" message:@"发表一下您使用过程中的感受吧" style:SSCustomAlterStyleTextView];
+    SSCustomAlter *_alter = [[SSCustomAlter alloc] initWithTitle:@"提示" message:@"发表一下您使用过程中的感受吧发表一下您使用过程中的感受吧发表一下您使用过程中的感受吧发表一下您使用过程中的感受吧发表一下您使用过程中的感受吧发表一下您使用过程中的感受吧发表一下您使用过程中的感受吧发表一下您使用过程中的感受吧发表一下您使用过程中的感受吧发表一下您使用过程中的感受吧发表一下您使用过程中的感受吧发表一下您使用过程中的感受吧发表一下您使用过程中的感受吧发表一下您使用过程中的感受吧发表一下您使用过程中的感受吧发表一下您使用过程中的感受吧发表一下您使用过程中的感受吧" style:SSCustomAlterStyleDefault];
     _alter.animationStyle = SSCustomAlterAnimationStyleCenter;
     SSActionAlter *alterOK = [[SSActionAlter alloc] initWithTitle:@"确定" style:SSActionStyleOK eventBack:^{
         

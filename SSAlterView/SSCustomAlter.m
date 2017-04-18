@@ -32,6 +32,9 @@ typedef void(^callBack)();
     if (self) {
         self.frame = [UIScreen mainScreen].bounds;
         _alertView = [[SSAlertView alloc] initWithStyle:style];
+        CGRect rect = _alertView.frame;
+        rect.size.width = kSCREENW-kMARANG*2;
+        _alertView.frame = rect;
         _alertView.title = title;
         _alertView.message = message;
         _alertView.delegate = self;

@@ -34,10 +34,6 @@
     if(self){
         self = [[NSBundle mainBundle] loadNibNamed:@"SSAlertView" owner:self options:nil].firstObject;
         _style = style;
-        
-        CGRect rect = self.frame;
-        rect.size.height = [self getSubviewsSumHeight];
-        self.frame = rect;
     }
     
     return self;
@@ -62,23 +58,6 @@
     _cTextView.layer.cornerRadius = 5.f;
 }
 
--(CGFloat)getSubviewsSumHeight
-{
-    if(_style == SSCustomAlterStyleDefault){
-        [_messageTitle sizeToFit];
-        [_headerTitle sizeToFit];
-        
-        _headerLableH.constant = _headerTitle.bounds.size.height+10;
-        CGFloat _headerTitleH = _headerLableH.constant;
-        CGFloat _messageTitleH = _messageTitle.bounds.size.height+10;
-        CGFloat _bottomViewH = _bottomView.bounds.size.height;
-        
-        return _headerTitleH+_messageTitleH+_bottomViewH+2;
-    }else{
-        return self.frame.size.height;
-    }
-}
-
 -(void)addAction:(SSActionAlter *)action
 {
     action.layer.masksToBounds = YES;
@@ -98,8 +77,6 @@
     }else{
         _contentText = [NSString stringWithFormat:@"%@%@", textView.text, text];
     }
-
-    _placeholder.hidden = _contentText.length==0?NO:YES;
     
     return YES;
 }
@@ -114,12 +91,19 @@
     }
 }
 
+-(void)textViewDidChange:(UITextView *)textView
+{
+    _placeholder.hidden = textView.text.length==0?NO:YES;
+}
+
 -(void)setTitle:(NSString *)title
 {
-    _headerTitle.text = title;
-    
     if(title==nil || [title isEqualToString:@""]){
         _headerLableH.constant = 0;
+    }else{
+        _headerTitle.text = title;
+        [_headerTitle sizeToFit];
+        _headerLableH.constant = _headerTitle.bounds.size.height+10;
     }
 }
 
@@ -129,12 +113,31 @@
         _cTextView.hidden = YES;
         _placeholder.hidden = YES;
         _messageTitle.text = message;
+        [_messageTitle sizeToFit];
+        
     }else{
         _messageTitle.hidden = YES;
         _placeholder.hidden = NO;
         _placeholder.text = message;
     }
+    
+    CGRect rect = self.frame;
+    rect.size.height = [self getSubviewsSumHeight];
+    self.frame = rect;
+}
 
+-(CGFloat)getSubviewsSumHeight
+{
+    if(_style == SSCustomAlterStyleDefault){
+        CGSize size = [_messageTitle.text boundingRectWithSize:CGSizeMake(self.frame.size.width, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:_messageTitle.font} context:nil].size;
+        CGFloat _headerTitleH = _headerLableH.constant;
+        CGFloat _messageTitleH = size.height+10;
+        CGFloat _bottomViewH = _bottomView.bounds.size.height;
+        
+        return _headerTitleH+_messageTitleH+_bottomViewH+2;
+    }else{
+        return self.frame.size.height;
+    }
 }
 
 -(void)layoutSubviews
