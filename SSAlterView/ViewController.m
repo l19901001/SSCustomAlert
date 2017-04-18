@@ -7,8 +7,11 @@
 //
 
 #import "ViewController.h"
+#import "SSCustomAlter.h"
 
 @interface ViewController ()
+
+//@property (nonatomic, strong) SSCustomAlter *alter;
 
 @end
 
@@ -17,6 +20,26 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+    
+}
+
+-(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
+{
+    SSCustomAlter *_alter = [[SSCustomAlter alloc] initWithTitle:@"提示" message:@"发表一下您使用过程中的感受吧" style:SSCustomAlterStyleTextView];
+    _alter.animationStyle = SSCustomAlterAnimationStyleCenter;
+    SSActionAlter *alterOK = [[SSActionAlter alloc] initWithTitle:@"确定" style:SSActionStyleOK eventBack:^{
+        
+        NSLog(@"点击了确认按钮===%@", _alter.contentText);
+        
+        [_alter hiddenView];
+    }];
+    
+    SSActionAlter *alterCancel = [[SSActionAlter alloc] initWithTitle:@"取消" style:SSActionStyleCancel eventBack:nil];
+    
+    [_alter addAction:alterOK];
+    [_alter addAction:alterCancel];
+    
+    [_alter showView];
 }
 
 
